@@ -1,4 +1,4 @@
-# aplicação crud
+# Aplicação CRUD
 
 JAVA EE
 PrimeFaces 6.0
