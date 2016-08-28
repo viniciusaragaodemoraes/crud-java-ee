@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Principal</title>
+    </h:head>
+    <h:body>
+        <h:form id="menu">  
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:submenu label="Empresa" icon="ui-icon-pencil">
+                    <p:menuitem value="Empresa" url="/company/company.jsf" />
+                </p:submenu>
+
+                <p:submenu label="Departamento" icon="ui-icon-pencil">
+                    <p:menuitem value="Departamentos" url="/department/department.jsf" />
+                </p:submenu>
+
+                <p:submenu label="Funcionario" icon="ui-icon-pencil">
+                    <p:menuitem value="Funcionarios" url="/officer/officer.jsf" />
+                </p:submenu>
+            </p:menubar>
+
+            <h1 style="text-align: center;font-family: cursive">
+                Seja Bem-Vindo
+            </h1>
+
+            <h2 style="text-align: center;font-family: cursive">
+                Acesse o sistema a partir dos menus acima.
+            </h2>
+
+        </h:form>
+    </h:body>
+</html>
+

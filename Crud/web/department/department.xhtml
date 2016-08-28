@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Departamento</title>
+    </h:head>
+    <h:body>
+        <p:messages id="messages" autoUpdate="true" closable="true" />
+        <h:form id="menu">  
+            <p:growl id="messages"/>
+            <p:menubar>
+                <p:submenu label="Empresa" icon="ui-icon-pencil">
+                    <p:menuitem value="Empresa" url="/company/company.jsf" />
+                </p:submenu>
+
+                <p:submenu label="Departamento" icon="ui-icon-pencil">
+                    <p:menuitem value="Departamentos" url="/department/department.jsf" />
+                </p:submenu>
+
+                <p:submenu label="Funcionario" icon="ui-icon-pencil">
+                    <p:menuitem value="Funcionarios" url="/officer/officer.jsf" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <h:form id="frmLista" >
+
+            <h2>
+                Módulo: Departamento
+            </h2>
+
+            <p:separator/>
+
+            <p:panelGrid rendered="#{departmentController.screen == 0}" columns="4" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-3,ui-grid-col-0,ui-grid-col-0">
+
+                <p:outputLabel value=""/>
+                <p:outputLabel value=""/>
+                <p:outputLabel value=""/>
+                <p:outputLabel value=""/>
+
+                <p:inputText placeholder="Pesquisa" value="#{departmentController.search}"/>
+                <p:commandButton value="Buscar" actionListener="#{departmentController.listDepartmentByDesc()}" update="listaPesquisa"/>
+                <p:commandButton value="Novo" actionListener="#{departmentController.newDepartment()}" update=":frmDetalhe :frmLista" />
+                <p:commandButton value="Ir para pagina inicial" actionListener="#{departmentController.goToIndex()}" />
+            </p:panelGrid>
+
+            <p:dataTable id="listaPesquisa" var="d" value="#{departmentController.listDepartment}" rendered="#{departmentController.screen == 0}" reflow="true" style="" emptyMessage="Não há empresas cadastradas">
+                <p:column headerText="Data Cadastro" sortBy="#{d.dataCadastro}" width="14%">
+                    <h:outputText value="#{d.dataCadastro}" >
+                        <f:convertDateTime locale="pt_BR" dateStyle="long" pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Descricao" sortBy="#{d.descricao}">
+                    <p:commandLink value="#{d.descricao}"  title="#{d.descricao}"  actionListener="#{departmentController.selectObjectDepartment(d)}" update=":frmDetalhe :frmLista" />
+                </p:column>
+                <p:column headerText="Detalhe" width="5%">
+                    <p:commandButton icon="ui-icon-search" actionListener="#{departmentController.selectObjectDepartment(d)}" update=":frmDetalhe :frmLista"/>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
+        <h:form id="frmDetalhe">
+
+            <p:panelGrid rendered="#{departmentController.screen == 1}"> 
+
+                <p:panelGrid columns="2" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+                    <p:panelGrid columns="1">
+                        <h:outputText value="Descrição" />
+                        <p:inputText value="#{departmentController.department.descricao}"/>  
+                    </p:panelGrid>
+                    <p:panelGrid columns="1">
+                        <h:outputText value="Situação" />
+                        <p:selectOneMenu value="#{departmentController.department.situacao}" >
+                            <f:selectItem itemLabel="Ativo" itemValue="Ativo" />
+                            <f:selectItem itemLabel="Inativo" itemValue="Inativo" />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                </p:panelGrid>
+
+                <p:separator/>
+
+                <p:panelGrid columns="3" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+                    <p:commandButton value="Salvar" actionListener="#{departmentController.SaveOrUpdateDepartment(0)}" update=":frmDetalhe :frmLista"/>
+                    <p:commandButton value="Voltar" immediate="true" actionListener="#{departmentController.changeScreen(0)}" update=":frmDetalhe :frmLista" />
+                    <p:commandButton value="Deletar" styleClass="RedButton" actionListener="#{departmentController.deleteDepartment()}" rendered="#{departmentController.department.idDepartment!=0}" update=":frmDetalhe :frmLista">
+                        <p:confirm header="Confirmação" message="Deseja excluir o registro?" icon="ui-icon-alert" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" />
+                    </p:confirmDialog>                                                              
+
+                </p:panelGrid>
+
+
+            </p:panelGrid>
+
+        </h:form>
+    </h:body>
+</html>
+
